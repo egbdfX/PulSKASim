@@ -68,6 +68,7 @@ def run_oskar_simulation(timeseries, # Flux sequence
             sim1.set_sky_model(sky1)
             sim1.run()
 
+# Usage Example:
 Data1 = scipy.io.loadmat('J2251_aa2.mat')
 timeseries = Data1['sim_flux2']
 timeseries = numpy.array(timeseries)
