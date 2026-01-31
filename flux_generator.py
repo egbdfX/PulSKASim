@@ -3,12 +3,10 @@ import matplotlib.pyplot as plt
 from scipy.io import savemat
 
 def flux_simul(T_in, maxx, sampling_period, duty_cycle, total_sim_time, noise_std=0):
-    # Parameters
     T = T_in
     sigma = T * duty_cycle / 6
     mu = T * duty_cycle / 2
 
-    # ----- Template for one cycle -----
     num_samples_per_cycle = 1000
     t_cycle = np.linspace(0, T, num_samples_per_cycle)
 
@@ -22,7 +20,6 @@ def flux_simul(T_in, maxx, sampling_period, duty_cycle, total_sim_time, noise_st
     plt.savefig("Template.png")
     plt.close()
 
-    # ----- Replicate over total simulation time -----
     num_cycles = int(np.ceil(total_sim_time / T))
     t = np.linspace(0, num_cycles * T, num_cycles * num_samples_per_cycle)
     gaussian_curve = np.tile(template, num_cycles)
@@ -34,7 +31,6 @@ def flux_simul(T_in, maxx, sampling_period, duty_cycle, total_sim_time, noise_st
     plt.savefig("replicate.png")
     plt.close()
 
-    # ----- Integrate over sampling period -----
     num_samples = int(np.floor(total_sim_time / sampling_period))
     flux = np.zeros(num_samples)
     t_flux = np.arange(num_samples) * sampling_period
@@ -47,11 +43,10 @@ def flux_simul(T_in, maxx, sampling_period, duty_cycle, total_sim_time, noise_st
         if np.any(indices):
             flux[i] = np.trapezoid(gaussian_curve[indices], t[indices])
 
-    # ----- FFT (noiseless) -----
     mflux = np.mean(flux)
     x = flux - mflux
 
-    Fs = 1 / 1.999184608459473
+    Fs = 1 / sampling_period
     N = len(x)
     X = np.fft.fft(x)
 
@@ -76,7 +71,6 @@ def flux_simul(T_in, maxx, sampling_period, duty_cycle, total_sim_time, noise_st
     plt.savefig("noiseless.png")
     plt.close()
 
-    # ----- Add noise in frequency domain -----
     if noise_std > 0:
         magX = np.abs(X)
         phaseX = np.angle(X)
@@ -93,11 +87,9 @@ def flux_simul(T_in, maxx, sampling_period, duty_cycle, total_sim_time, noise_st
     else:
         X_noisy = X
 
-    # ----- Back to time domain -----
     flux_noisy = np.real(np.fft.ifft(X_noisy)) + mflux
     flux_noisy[flux_noisy < 0] = 0
 
-    # ----- Plot noisy result -----
     plt.figure(figsize=(10, 4))
 
     plt.subplot(1, 2, 1)
