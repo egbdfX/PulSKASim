@@ -17,7 +17,7 @@ The interferometric simulation script **oskarsim.py** requires **OSKAR** python 
 
 **When referencing this code, please cite our related paper:**
 
-X. Li and V. Stolyarov, "PulSKASim: A Pulsar Simulator for SKA-Scale Interferometric Observations", Astronomical Data Analysis Software and Systems (ADASS) XXXV, 2025.
+X. Li and V. Stolyarov, "[PulSKASim: A Pulsar Simulator for SKA-Scale Interferometric Observations](https://arxiv.org/abs/2603.04593)", Astronomical Data Analysis Software and Systems (ADASS) XXXV, 2025.
 
 ## License
 
