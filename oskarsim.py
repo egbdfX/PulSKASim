@@ -51,7 +51,9 @@ def run_oskar_simulation(timeseries, # Flux sequence
                 },
                 "interferometer": {
                     "noise/enable": False,
-                    "ms_filename": "snap_"+str(nfreq[indfrq])+"_"+str(t)+".ms"
+                    "ms_filename": "snap_"+str(nfreq[indfrq])+"_"+str(t)+".ms",
+                    "time_average_sec": T, # Can be other values
+                    "channel_bandwidth_hz": frequency_inc_hz # Can be other values
                 }
             }
 
